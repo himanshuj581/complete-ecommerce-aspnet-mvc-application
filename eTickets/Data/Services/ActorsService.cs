@@ -3,18 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using eTickets.Data.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace eTickets.Data.Services
 {
-    public class ActorsService : IActorsService
+    public class ActorsService : EntityBaseRepository<Actor>, IActorsService
     {
         private readonly AppDbContext _context;
 
-        public ActorsService(AppDbContext context)
-        {
-            _context = context;
-        }
+        public ActorsService(AppDbContext context) : base(context) { }
+        /*
         public async Task AddAsync(Actor actor)
         {
             await _context.Actors.AddAsync(actor);
@@ -24,7 +23,7 @@ namespace eTickets.Data.Services
         public async Task DeleteAsync(int id)
         {
             var result = await _context.Actors.FirstOrDefaultAsync(n => n.Id == id);
-            /*await*/ _context.Actors.Remove(result);
+            await _context.Actors.Remove(result);
             await _context.SaveChangesAsync();
         }
 
@@ -35,5 +34,6 @@ namespace eTickets.Data.Services
             await _context.SaveChangesAsync();
             return newActor;
         }
+        */
     }
 }
