@@ -6,11 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using eTickets.Data.Services;
+using eTickets.Data.Static;
 using eTickets.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace eTickets.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class MoviesController : Controller
     {
         private readonly IMoviesService _service;
@@ -19,12 +22,14 @@ namespace eTickets.Controllers
         {
             _service = service;
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var allMovies = await _service.GetAllAsync(n => n.Cinema);
             return View(allMovies);
         }
         //Get: Movies/Details/Id
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var movieDetails = await _service.GetMovieByIdAsync(id);
@@ -108,6 +113,7 @@ namespace eTickets.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Filter(string searchString)
         {
             var allMovies = await _service.GetAllAsync(n => n.Cinema);
